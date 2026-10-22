@@ -43,7 +43,7 @@ function TrackModelLoader() {
           CIRCUIT DE BARCELONA-CATALUNYA GLB
         </span>
         <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden border border-white/20 p-[1px]">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-[#00ff87] via-[#00e5ff] to-[#ffaa00] rounded-full transition-all duration-300"
             style={{ width: `${Math.max(progress, 5)}%` }}
           />
@@ -59,7 +59,7 @@ function TrackModelLoader() {
 
 // Authentic Barcelona Grand Prix 3D Model with PBR daylight textures
 function BarcelonaGLTFModel({ onTrackDoubleClick }) {
-  const { scene } = useGLTF('/models/barcelona.glb')
+  const { scene } = useGLTF('/models/barcelona_v2.glb')
 
   const processedModel = useMemo(() => {
     if (!scene) return null
@@ -94,8 +94,8 @@ function BarcelonaGLTFModel({ onTrackDoubleClick }) {
 
   if (!processedModel) return null
   return (
-    <primitive 
-      object={processedModel} 
+    <primitive
+      object={processedModel}
       onDoubleClick={onTrackDoubleClick}
     />
   )
@@ -212,7 +212,7 @@ export default function CircuitModel() {
             distanceFactor={180}
             zIndexRange={[100, 0]}
           >
-            <div 
+            <div
               className="relative cursor-pointer transition-transform duration-300"
               style={{
                 transform: isHovered || isSelected ? 'scale(1.15) translateY(-6px)' : 'scale(1.0)',
@@ -234,18 +234,17 @@ export default function CircuitModel() {
               />
 
               {/* Marker Card Box with high contrast */}
-              <div 
-                className={`relative px-3.5 py-2 rounded-lg font-mono text-xs flex items-center gap-2.5 shadow-2xl backdrop-blur-md transition-all border ${
-                  isSelected 
-                    ? 'bg-black/90 text-white border-2' 
+              <div
+                className={`relative px-3.5 py-2 rounded-lg font-mono text-xs flex items-center gap-2.5 shadow-2xl backdrop-blur-md transition-all border ${isSelected
+                    ? 'bg-black/90 text-white border-2'
                     : 'bg-black/80 text-white/95 border border-white/20 hover:border-white/60'
-                }`}
+                  }`}
                 style={{
                   borderColor: isSelected || isHovered ? turn.color : 'rgba(255,255,255,0.3)',
                   boxShadow: isSelected || isHovered ? `0 0 25px ${turn.color}aa` : '0 10px 25px rgba(0,0,0,0.6)'
                 }}
               >
-                <div 
+                <div
                   className="px-2 py-0.5 rounded font-black text-[11px] tracking-wider clip-slanted"
                   style={{
                     backgroundColor: turn.color,
@@ -269,14 +268,14 @@ export default function CircuitModel() {
                   </span>
                 </div>
 
-                <div 
+                <div
                   className="w-2 h-2 rounded-full"
                   style={{ backgroundColor: turn.color }}
                 />
               </div>
 
               {/* Stem pointing down to apex */}
-              <div 
+              <div
                 className="w-0.5 h-6 mx-auto"
                 style={{
                   background: `linear-gradient(to bottom, ${turn.color}, transparent)`

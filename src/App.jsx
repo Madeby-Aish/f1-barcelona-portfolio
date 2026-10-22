@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { usePortfolioStore } from './store/usePortfolioStore'
 import TrackScene from './components/canvas/TrackScene'
@@ -11,8 +11,12 @@ export default function App() {
 
   return (
     <div className="relative w-screen h-[100dvh] min-h-[100dvh] overflow-hidden bg-[#b0d4ec] font-sans antialiased">
-      {/* 1. Underlying 3D R3F Track Scene with Daylight Lighting */}
-      <TrackScene />
+      {/* 1. Underlying 3D R3F Track Scene - mounted conditionally when entering track */}
+      {activeScreen !== 'character_select' && (
+        <Suspense fallback={null}>
+          <TrackScene />
+        </Suspense>
+      )}
 
       {/* 2. Fullscreen Fighting Game Character Select Menu */}
       <AnimatePresence mode="wait">

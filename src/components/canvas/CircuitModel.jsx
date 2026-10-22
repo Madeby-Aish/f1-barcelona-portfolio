@@ -290,4 +290,3 @@ export default function CircuitModel() {
   )
 }
 
-useGLTF.preload('/models/barcelona.glb')

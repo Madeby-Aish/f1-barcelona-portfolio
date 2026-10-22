@@ -64,15 +64,8 @@ npm run preview
 
 This project builds as a static Single Page Application (SPA).
 
-1. Connect your repository on [Netlify](https://www.netlify.com/).
-2. Set build configurations:
-   * **Build command**: `npm run build`
-   * **Publish directory**: `dist`
-3. Optional: Add a `_redirects` file in `public/_redirects`:
-   ```
-   /*    /index.html   200
-   ```
-
+1. https://fabulous-unicorn-1ca7d4.netlify.app
+2. The Interactive 3D F1 Portfolio v1 is already live, thanks to netlify!!
 ---
 
 ## 🛠️ Tech Stack Architecture

@@ -8,16 +8,16 @@ export default function CameraRig() {
   const { camera, controls } = useThree()
   const { selectedTurn, isCameraTransitioning, finishCameraTransition } = usePortfolioStore()
 
-  // Trackside default camera position [0, 45, 95] looking at track center [0, 10, 0]
+  // Trackside default camera position [0, 45, 95] looking at track center [0, 5, 0]
   const targetCamPos = useRef(new THREE.Vector3(0, 45, 95))
-  const targetLookAt = useRef(new THREE.Vector3(0, 10, 0))
-  const currentLookAt = useRef(new THREE.Vector3(0, 10, 0))
+  const targetLookAt = useRef(new THREE.Vector3(0, 5, 0))
+  const currentLookAt = useRef(new THREE.Vector3(0, 5, 0))
 
   // Update target when selectedTurn changes
   useEffect(() => {
     if (selectedTurn === null) {
       targetCamPos.current.set(0, 45, 95)
-      targetLookAt.current.set(0, 10, 0)
+      targetLookAt.current.set(0, 5, 0)
     } else {
       const turn = TURNS_DATA.find((t) => t.turnNumber === selectedTurn)
       if (turn) {

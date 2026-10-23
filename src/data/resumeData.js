@@ -1,6 +1,6 @@
 export const SATELLITE_CAMERA = {
-  position: [-250, 180, 260],
-  target: [0, 10, 0],
+  position: [0, 45, 95],
+  target: [0, 5, 0],
 }
 
 export const TURNS_DATA = [
@@ -11,10 +11,10 @@ export const TURNS_DATA = [
     category: "SKILLS & EDUCATION",
     sector: 1,
     color: "#00ff87", // Electric emerald
-    trackPosition: [-120, 2, 90],
+    trackPosition: [-60, 1.8, 45],
     camera: {
-      position: [-105, 8, 108],
-      target: [-120, 2, 90],
+      position: [-52, 6, 54],
+      target: [-60, 1.8, 45],
     },
     telemetry: {
       entrySpeed: "338 km/h",
@@ -85,10 +85,10 @@ export const TURNS_DATA = [
     category: "ACHIEVEMENTS & LITERATURE",
     sector: 1,
     color: "#ffaa00", // Race amber
-    trackPosition: [90, 4, 110],
+    trackPosition: [45, 1.8, 55],
     camera: {
-      position: [106, 9, 126],
-      target: [90, 4, 110],
+      position: [53, 6.5, 63],
+      target: [45, 1.8, 55],
     },
     telemetry: {
       entrySpeed: "285 km/h",
@@ -150,10 +150,10 @@ export const TURNS_DATA = [
     category: "PROJECTS",
     sector: 2,
     color: "#00e5ff", // Neon Cyan
-    trackPosition: [140, 2, -100],
+    trackPosition: [70, 1.8, -50],
     camera: {
-      position: [156, 7, -84],
-      target: [140, 2, -100],
+      position: [78, 6, -42],
+      target: [70, 1.8, -50],
     },
     telemetry: {
       entrySpeed: "305 km/h",
@@ -209,10 +209,10 @@ export const TURNS_DATA = [
     category: "EXPERIENCE & LEADERSHIP",
     sector: 3,
     color: "#ff0055", // Hot red
-    trackPosition: [40, 3, -150],
+    trackPosition: [20, 1.8, -75],
     camera: {
-      position: [56, 8, -134],
-      target: [40, 3, -150],
+      position: [28, 6, -67],
+      target: [20, 1.8, -75],
     },
     telemetry: {
       entrySpeed: "230 km/h",
@@ -277,10 +277,10 @@ export const TURNS_DATA = [
     category: "CONTACT & CREDENTIALS",
     sector: 3,
     color: "#b026ff", // Neon Purple
-    trackPosition: [-80, 2, -110],
+    trackPosition: [-40, 1.8, -55],
     camera: {
-      position: [-66, 7, -96],
-      target: [-80, 2, -110],
+      position: [-33, 6, -48],
+      target: [-40, 1.8, -55],
     },
     telemetry: {
       entrySpeed: "245 km/h",
@@ -289,6 +289,7 @@ export const TURNS_DATA = [
       lateralG: "3.4 G",
       status: "CHECKERED FLAG"
     },
+
     tagline: "Direct channels for collaboration, engineering roles, literary inquiries, and speaking invitations.",
     items: [
       {

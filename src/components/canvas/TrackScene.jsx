@@ -44,16 +44,18 @@ export default function TrackScene() {
           far={5000}
         />
 
-        {/* 3. OrbitControls with Full Free Orbiting & Zooming */}
+        {/* 3. OrbitControls with Locked Ground Horizon & Free Orbiting */}
         <OrbitControls
           makeDefault
           enableZoom={true}
           enableRotate={true}
-          enablePan={true}
-          minDistance={10}
-          maxDistance={400}
+          enablePan={false}
+          minDistance={20}
+          maxDistance={350}
+          minPolarAngle={0.1}
           maxPolarAngle={Math.PI / 2.05}
         />
+
 
         {/* 4. Strong Natural Daylight Illumination */}
         <ambientLight intensity={1.8} />

@@ -1,83 +1,59 @@
 import React, { useRef, useEffect } from 'react'
-import { CameraControls } from '@react-three/drei'
-import { SATELLITE_CAMERA, TURNS_DATA } from '../../data/resumeData'
+import { useFrame, useThree } from '@react-three/fiber'
+import * as THREE from 'three'
+import { TURNS_DATA } from '../../data/resumeData'
 import { usePortfolioStore } from '../../store/usePortfolioStore'
 
 export default function CameraRig() {
-  const controlsRef = useRef()
+  const { camera, controls } = useThree()
   const { selectedTurn, isCameraTransitioning, finishCameraTransition } = usePortfolioStore()
 
-  // Initial setup: set camera to isometric diagonal perspective overlooking main straight & Turn 1
-  useEffect(() => {
-    if (!controlsRef.current) return
-    controlsRef.current.setLookAt(
-      SATELLITE_CAMERA.position[0],
-      SATELLITE_CAMERA.position[1],
-      SATELLITE_CAMERA.position[2],
-      SATELLITE_CAMERA.target[0],
-      SATELLITE_CAMERA.target[1],
-      SATELLITE_CAMERA.target[2],
-      false
-    )
-  }, [])
+  // Trackside default camera position [0, 45, 95] looking at track center [0, 10, 0]
+  const targetCamPos = useRef(new THREE.Vector3(0, 45, 95))
+  const targetLookAt = useRef(new THREE.Vector3(0, 10, 0))
+  const currentLookAt = useRef(new THREE.Vector3(0, 10, 0))
 
-  // Smooth movement when selectedTurn changes
+  // Update target when selectedTurn changes
   useEffect(() => {
-    if (!controlsRef.current) return
-
     if (selectedTurn === null) {
-      // Transition smoothly back to overview satellite diagonal view
-      controlsRef.current.setLookAt(
-        SATELLITE_CAMERA.position[0],
-        SATELLITE_CAMERA.position[1],
-        SATELLITE_CAMERA.position[2],
-        SATELLITE_CAMERA.target[0],
-        SATELLITE_CAMERA.target[1],
-        SATELLITE_CAMERA.target[2],
-        true // smooth transition
-      )
+      targetCamPos.current.set(0, 45, 95)
+      targetLookAt.current.set(0, 10, 0)
     } else {
       const turn = TURNS_DATA.find((t) => t.turnNumber === selectedTurn)
       if (turn) {
-        // Transition down to tarmac level right at that turn's curb/apex
-        controlsRef.current.setLookAt(
-          turn.camera.position[0],
-          turn.camera.position[1],
-          turn.camera.position[2],
-          turn.camera.target[0],
-          turn.camera.target[1],
-          turn.camera.target[2],
-          true // smooth transition
-        )
+        targetCamPos.current.set(...turn.camera.position)
+        targetLookAt.current.set(...turn.camera.target)
       }
     }
   }, [selectedTurn])
 
-  // Finish transition when camera stops moving
-  useEffect(() => {
-    const controls = controlsRef.current
-    if (!controls) return
+  useFrame((_, delta) => {
+    // CRITICAL: Only interpolate when transitioning between camera views or turns.
+    // When idle, return immediately so OrbitControls is 100% free and responsive.
+    if (!isCameraTransitioning) return
 
-    const handleRest = () => {
-      if (isCameraTransitioning) {
-        finishCameraTransition()
-      }
+    const lerpFactor = Math.min(delta * 2.8, 0.12)
+
+    camera.position.lerp(targetCamPos.current, lerpFactor)
+    currentLookAt.current.lerp(targetLookAt.current, lerpFactor)
+
+    if (controls) {
+      controls.target.copy(currentLookAt.current)
+      controls.update()
+    } else {
+      camera.lookAt(currentLookAt.current)
     }
 
-    controls.addEventListener('rest', handleRest)
-    return () => controls.removeEventListener('rest', handleRest)
-  }, [isCameraTransitioning, finishCameraTransition])
+    // Check if camera reached destination
+    const posDist = camera.position.distanceTo(targetCamPos.current)
+    const lookDist = currentLookAt.current.distanceTo(targetLookAt.current)
 
-  return (
-    <CameraControls
-      ref={controlsRef}
-      makeDefault
-      smoothTime={0.7}
-      draggingSmoothTime={0.08}
-      minDistance={3}
-      maxDistance={1200}
-      maxPolarAngle={Math.PI / 2.05}
-      dollyToCursor={true}
-    />
-  )
+    if (posDist < 1.5 && lookDist < 1.0) {
+      finishCameraTransition()
+    }
+  })
+
+  // OrbitControls is managed directly in TrackScene.jsx with makeDefault
+  return null
 }
+

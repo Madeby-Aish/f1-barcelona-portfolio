@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { usePortfolioStore } from './store/usePortfolioStore'
 import TrackScene from './components/canvas/TrackScene'
@@ -10,28 +10,37 @@ export default function App() {
   const { activeScreen } = usePortfolioStore()
 
   return (
-    <div className="relative w-screen h-[100dvh] min-h-[100dvh] overflow-hidden bg-[#b0d4ec] font-sans antialiased">
-      {/* 1. Underlying 3D R3F Track Scene - mounted conditionally when entering track */}
-      {activeScreen !== 'character_select' && (
-        <Suspense fallback={null}>
+    <div className="relative w-screen h-[100dvh] min-h-[100dvh] overflow-hidden bg-[#0a0a0a] font-sans antialiased">
+      {/* 1. 3D R3F Track Scene: mounted ONLY when race/track view is active */}
+      {activeScreen !== 'character_select' && activeScreen !== 'character-select' && (
+        <React.Suspense fallback={null}>
           <TrackScene />
-        </Suspense>
+        </React.Suspense>
       )}
 
-      {/* 2. Fullscreen Fighting Game Character Select Menu */}
+      {/* 2. Top-level Screen Modes */}
       <AnimatePresence mode="wait">
-        {activeScreen === 'character_select' && (
+        {(activeScreen === 'character_select' || activeScreen === 'character-select') && (
           <CharacterSelectMenu key="character-select" />
         )}
       </AnimatePresence>
 
-      {/* 3. Racing Track Telemetry HUD & Turn Checkpoint Modals */}
-      {activeScreen === 'racing_track' && (
+      {/* 3. Racing Track HUD & Modals */}
+      {(activeScreen === 'racing_track' || activeScreen === 'racing-track') && (
         <>
           <HUDOverlay />
           <TurnCarouselModal />
         </>
       )}
+
+      {/* 4. Subtle Ambient Scanline & Vignette Effect (Landing only) */}
+      {(activeScreen === 'character_select' || activeScreen === 'character-select') && (
+        <>
+          <div className="fixed inset-0 pointer-events-none scanlines opacity-20 z-20" />
+          <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.6)_100%)] z-20" />
+        </>
+      )}
     </div>
   )
 }
+

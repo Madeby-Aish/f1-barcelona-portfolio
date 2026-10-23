@@ -120,8 +120,8 @@ export default function CircuitModel() {
         </Suspense>
       </ModelErrorBoundary>
 
-      {/* 2. Static Apex Ground Markers (Crisp White Circle + Accent Ring) */}
-      {TURNS_DATA.map((turn) => (
+      {/* 2. Static Apex Ground Markers (Visible ONLY when no apex card is open) */}
+      {!selectedTurn && TURNS_DATA.map((turn) => (
         <group key={`apex-pin-${turn.turnNumber}`} position={turn.trackPosition}>
           {/* Static crisp white circular ground disc */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.05, 0]}>
@@ -136,9 +136,8 @@ export default function CircuitModel() {
         </group>
       ))}
 
-      {/* 3. Clean Static HTML Turn Apex Badges (Zero Pulsing / Flashing Auras) */}
-      {TURNS_DATA.map((turn) => {
-        const isSelected = selectedTurn === turn.turnNumber
+      {/* 3. Clean Static HTML Turn Apex Badges (Visible ONLY when no apex card is open) */}
+      {!selectedTurn && TURNS_DATA.map((turn) => {
         const isHovered = hoveredTurn === turn.turnNumber
 
         return (
@@ -163,13 +162,9 @@ export default function CircuitModel() {
             >
               {/* Clean Static Marker Badge */}
               <div
-                className={`relative px-3 py-1.5 rounded-lg font-mono text-xs flex items-center gap-2.5 shadow-xl backdrop-blur-md transition-all border ${
-                  isSelected
-                    ? 'bg-black text-white border-white'
-                    : 'bg-[#121212]/95 text-white/90 border-[#262626] hover:border-white/50'
-                }`}
+                className="relative px-3 py-1.5 rounded-lg font-mono text-xs flex items-center gap-2.5 shadow-xl backdrop-blur-md transition-all border bg-[#121212]/95 text-white/90 border-[#262626] hover:border-white/50"
                 style={{
-                  borderColor: isSelected ? '#ffffff' : (isHovered ? turn.color : '#262626'),
+                  borderColor: isHovered ? turn.color : '#262626',
                 }}
               >
                 {/* Crisp White Circle Marker with Turn Number */}
@@ -206,6 +201,7 @@ export default function CircuitModel() {
         )
       })}
     </group>
+
   )
 }
 
